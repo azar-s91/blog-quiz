@@ -34,15 +34,54 @@ function displayQuiz(questions) {
       label.style.display = "block";
       label.style.cursor = "pointer";
       label.style.margin = "4px 0";
+      label.style.padding = "6px 8px";
+      label.style.borderRadius = "4px";
+      label.style.transition = "background-color 0.12s ease, color 0.12s ease";
+      label.style.userSelect = "none";
 
       const input = document.createElement("input");
       input.type = "radio";
       input.name = `q${i}`;
       input.value = String.fromCharCode(65 + idx);
+      input.style.marginRight = "8px";
+
+      // wrap option text in a span so we can style it if wanted
+      const span = document.createElement("span");
+      span.className = "opt-text";
+      span.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
 
       label.appendChild(input);
-      label.insertAdjacentText("beforeend", ` ${String.fromCharCode(65 + idx)}. ${opt}`);
+      label.appendChild(span);
       questionBlock.appendChild(label);
+
+      // Update selected option color on change
+      input.addEventListener("change", () => {
+        const labels = questionBlock.querySelectorAll("label");
+        labels.forEach((l) => {
+          const r = l.querySelector('input[type="radio"]');
+          if (r && r.checked) {
+            // chosen style (customize colors here)
+            l.style.backgroundColor = "#e6f7ff"; // light blue background
+            l.style.color = "#003a6b"; // dark blue text
+            l.style.boxShadow = "inset 0 0 0 1px rgba(0,58,107,0.06)";
+          } else {
+            // reset style
+            l.style.backgroundColor = "";
+            l.style.color = "";
+            l.style.boxShadow = "";
+          }
+        });
+      });
+
+      // Optional: keyboard focus styling to make selection obvious when navigating
+      input.addEventListener("focus", () => {
+        label.style.outline = "2px solid rgba(0,123,255,0.18)";
+        label.style.outlineOffset = "2px";
+      });
+      input.addEventListener("blur", () => {
+        label.style.outline = "";
+        label.style.outlineOffset = "";
+      });
     });
 
     const exp = document.createElement("p");
