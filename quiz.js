@@ -16,11 +16,12 @@ function displayQuiz(questions) {
   quizDiv.innerHTML = "";
   questions.forEach((q, i) => {
     quizDiv.innerHTML += `
-      <div style="margin-bottom:20px;">
-        <p><b>Q${i+1}. ${q.question}</b></p>
-        ${[1,2,3,4].map(n => `
-          <label style="display:block;cursor:pointer;">
-            <input type="radio" name="q${i}" value="${q['option'+n]}"> ${q['option'+n]}
+      <div style="margin-bottom:20px;padding:10px;border-bottom:1px solid #eee;">
+        <p><b>Q${i + 1}. ${q.question}</b></p>
+        ${q.options.map((opt, idx) => `
+          <label style="display:block;cursor:pointer;margin:4px 0;">
+            <input type="radio" name="q${i}" value="${String.fromCharCode(65 + idx)}">
+            ${String.fromCharCode(65 + idx)}. ${opt}
           </label>
         `).join('')}
         <p id="exp${i}" style="display:none;color:#555;margin-top:5px;font-style:italic;"></p>
